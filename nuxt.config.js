@@ -38,16 +38,55 @@ export default {
     // https://go.nuxtjs.dev/vuetify
     '@nuxtjs/vuetify',
   ],
+  router: {
+    middleware: 'auth'
+  },
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
+    '@nuxtjs/axios',
+    '@nuxtjs/auth'
   ],
+   auth: {
+    redirect: {
+      login: '/login',
+      callback: '/',
+      home: '/'
+    },
+    localStorage: false,
+    resetOnError: true,
+    strategies: {
+      local: {
+        cookie: false,
+        user: {
+          property: 'user'
+        },
+        token: {
+          property: 'token',
+          required: true
+        },
+        endpoints: {
+          login: {
+            url: '/login',
+            method: 'post'
+          },
+          logout: {
+            url: '/logout',
+            method: 'post'
+          },
+          user: false
+        },
+        rewriteRedirects: true,
+        fullPathRedirect: true
+      }
+    }
+  },
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {
     customVariables: ['~/assets/variables.scss'],
     theme: {
-      dark: true,
+      dark: false,
       themes: {
         dark: {
           primary: colors.blue.darken2,
